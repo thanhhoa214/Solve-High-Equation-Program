@@ -1,6 +1,6 @@
 class Expression {
    constructor(input) {
-      this._num = input.split(new RegExp('\\s+', 'gm'));
+      this._num = input.trim().split(new RegExp('\\s+', 'gm'));
       this.parseToNum();
       this.findDerivative();
       this._result = [];
@@ -81,9 +81,11 @@ class Expression {
          return false;
       }
       if (leng === 2) {
-         if (clone[0] === 0) return false;
-         else {
+         if (clone[0] === 0) {
+               return false;
+         } else {
             this._result.push(-clone[1] / clone[0]);
+            return true;
          }
       }
       do {
@@ -117,17 +119,17 @@ class Expression {
       let strResult = '';
       let leng = this._result.length;
       if (leng === 0)
-         strResult = '<br/>The equation does not have root.';
+         strResult = '<pre>The equation does not have root.</pre>';
       else {
-         strResult = '<br/><ul>The equation has roots : ';
+         strResult = '<pre>The equation has roots :</pre>';
          for (let i = 0; i < leng; i++) {
-            strResult += `<li>Root ${i + 1} : ${this._result[i]}</li>`;
+            strResult += `<pre>Root ${i + 1} :      ${this._result[i]}</pre>`;
          }
       }
       return strResult;
    }
    printExp() {
-      let s1 = '';
+      let s1 = '<h2 style="text-align: center;">Your equation ';
       let leng = this._num.length;
       for (let i = 0; i < leng; i++) {
          if (i < leng - 1) {
@@ -146,10 +148,10 @@ class Expression {
             }
          }
       }
-      while (new RegExp(' + -').test(s1)) {
+      while (new RegExp(' [+] -').test(s1)) {
          s1 = s1.replace(' + -', ' - ');
       }
-      s1 = s1.trim();
+      s1 = s1.trim() + ' = 0</h2>';
       return s1;
    }
 }
